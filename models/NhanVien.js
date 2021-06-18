@@ -9,16 +9,14 @@ var NhanVien = function() {
     return this.heSoChucVu * this.luongCoBan;
   };
   this.xepLoaiNhanVien = function () {
-    if (this.soGioLamTrongThang <= 80) {
-      return "nhân viên yếu";
-    } else if (this.soGioLamTrongThang > 80 && this.soGioLamTrongThang <= 100) {
-      return "nhân viên kém";
-    } else if (this.soGioLamTrongThang > 100 && this.soGioLamTrongThang <= 120) {
-      return "nhân viên khá";
-    } else if (this.soGioLamTrongThang > 120 && this.soGioLamTrongThang <= 150) {
-      return "nhân viên giỏi";
-    } else if (this.soGioLamTrongThang > 150) {
-      return "nhân viên xuất sắc";
+    if (this.soGioLamTrongThang > 120) {
+      return "Nhân viên xuất sắc";
+    } else if (this.soGioLamTrongThang > 100) {
+      return "Nhân viên giỏi";
+    } else if (this.soGioLamTrongThang > 80) {
+      return "Nhân viên khá";
+    } else if (this.soGioLamTrongThang > 50) {
+      return "Nhân viên trung bình";
     } else {
       return "không đủ điều kiện xếp loại nhân viên";
     }
