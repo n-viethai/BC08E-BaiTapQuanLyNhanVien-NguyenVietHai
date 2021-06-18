@@ -14,6 +14,23 @@ function staffListFromApi() {
     console.log("error", error);
   });
 }
+// function getDataAxios() {
+//   var promise = axios({
+//     url: "http://svcy.myclass.vn/api/QuanLyNhanVienApi/LayDanhSachNhanVien",
+//     method: "GET",
+//     responseType: "json",
+//   });
+//   return promise
+//     .then((result) => {
+//       console.log(result);
+//       return result.data;
+//     })
+//     .catch((error) => {
+//       console.error(error);
+//       return Promise.reject(error);
+//     });
+// }
+// console.log(getDataAxios());
 
 // render table từ danh sách nhân viên đã lấy từ API
 function renderStaffTable(arrNhanVien) {
@@ -32,8 +49,8 @@ function renderStaffTable(arrNhanVien) {
             <td>${nhanVien.maNhanVien}</td>
             <td>${nhanVien.tenNhanVien}</td>
             <td>${nhanVien.chucVu}</td>
-            <td>${nhanVien.luongCoBan}</td>
-            <td>${nhanVien.tinhTongLuong()}</td>
+            <td>${Number(nhanVien.luongCoBan).toLocaleString()}</td>
+            <td>${nhanVien.tinhTongLuong().toLocaleString()}</td>
             <td>${nhanVien.soGioLamTrongThang}</td>
             <td>${nhanVien.xepLoaiNhanVien()}</td>
             <td><button class="btn btn-danger" onclick="xoaNhanVien('${
@@ -64,24 +81,42 @@ document.querySelector("#btnThemNhanVien").onclick = function () {
 
   var valid = true;
   var kiemTra = new Validation();
-    valid &= kiemTra.kiemTraKyTu(nhanVien.tenNhanVien,'#errorSelector_tenNhanVien','Tên nhân viên');
+  valid &= kiemTra.kiemTraKyTu(
+    nhanVien.tenNhanVien,
+    "#errorSelector_tenNhanVien",
+    "Tên nhân viên"
+  );
 
-    valid &= kiemTra.kiemTraSo(nhanVien.maNhanVien,'#errorSelector_maNhanVien',4,6,'Mã nhân viên','130993');
+  valid &= kiemTra.kiemTraSo(
+    nhanVien.maNhanVien,
+    "#errorSelector_maNhanVien",
+    4,
+    6,
+    "Mã nhân viên",
+    "130993"
+  );
 
-  if(!valid){
+  valid &=
+    kiemTra.kiemTraGiatri(
+      nhanVien.luongCoBan,
+      "#errorSelector_luongCoBan",
+      1000000,
+      20000000,
+      "Lương cơ bản"
+    ) &
+    kiemTra.kiemTraGiatri(
+      nhanVien.soGioLamTrongThang,
+      "#errorSelector_soGioLamTrongThang",
+      50,
+      120,
+      "Số giờ làm"
+    );
+  
+  if (!valid) {
     return;
   }
 
   // console.log(arrNhanVienHienTai);
-
-  // for(var i = 0; i < arrNhanVienHienTai.length; i++){
-  //   var arrNV = arrNhanVienHienTai[i];
-  //   if(arrNV.maNhanVien === nhanVien.maNhanVien) {
-  //     alert('Mã nhân viên đã tồn tại!');
-
-  //     return;
-  //   }
-  // }
 
   var promise = axios({
     url: "http://svcy.myclass.vn/api/QuanLyNhanVienApi/ThemNhanVien",
