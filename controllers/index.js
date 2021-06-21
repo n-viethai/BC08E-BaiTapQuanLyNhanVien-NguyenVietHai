@@ -1,5 +1,6 @@
 // lấy danh sách nhân viên từ API
 staffListFromApi();
+document.querySelector("#btnChinhSua").disabled = true;
 function staffListFromApi() {
   var promise = axios({
     url: "http://svcy.myclass.vn/api/QuanLyNhanVienApi/LayDanhSachNhanVien",
@@ -153,8 +154,9 @@ function xoaNhanVien(maNV) {
 // chỉnh sửa nhân viên
 
 function chinhSuaNhanVien(maNV) {
-  document.querySelector('#maNhanVien').disabled = true;
-  document.querySelector('#btnThemNhanVien').disabled = true;
+  document.querySelector("#maNhanVien").disabled = true;
+  document.querySelector("#btnChinhSua").disabled = false;
+  document.querySelector("#btnThemNhanVien").disabled = true;
   var promise = axios({
     url: `http://svcy.myclass.vn/api/QuanLyNhanVienApi/LayThongTinNhanVien?maNhanVien=${maNV}`,
     method: "GET",
@@ -230,19 +232,20 @@ document.querySelector("#btnChinhSua").onclick = function () {
     return;
   }
 
+  document.querySelector("#maNhanVien").disabled = false;
+  document.querySelector("#btnThemNhanVien").disabled = false;
+  document.querySelector("#btnChinhSua").disabled = true;
   var isConfirm = confirm(
     "Bạn có chắc chắn muốn thay đổi thông tin nhân viên!"
   );
   if (isConfirm === false) {
-    document.querySelector('#maNhanVien').disabled = false;
-    document.querySelector('#btnThemNhanVien').disabled = false;
     resetInput();
     return;
   }
 
-  document.querySelector('#maNhanVien').disabled = false;
-  document.querySelector('#btnThemNhanVien').disabled = false;
-
+  // document.querySelector("#maNhanVien").disabled = false;
+  // document.querySelector("#btnThemNhanVien").disabled = false;
+  // document.querySelector("#btnChinhSua").disabled = false;
   var promise = axios({
     url: `http://svcy.myclass.vn/api/QuanLyNhanVienApi/CapNhatThongTinNhanVien?maNhanVien=${nhanVien.maNhanVien}`,
     method: "PUT",
@@ -260,9 +263,9 @@ document.querySelector("#btnChinhSua").onclick = function () {
 };
 
 function resetInput() {
-  document.querySelector('#maNhanVien').value = '';
-  document.querySelector('#tenNhanVien').value = '';
-  document.querySelector('#luongCoBan').value = '';
-  document.querySelector('#soGioLamTrongThang').value = '';
-  document.querySelector('#chucVu').value = 1;
+  document.querySelector("#maNhanVien").value = "";
+  document.querySelector("#tenNhanVien").value = "";
+  document.querySelector("#luongCoBan").value = "";
+  document.querySelector("#soGioLamTrongThang").value = "";
+  document.querySelector("#chucVu").value = 1;
 }
