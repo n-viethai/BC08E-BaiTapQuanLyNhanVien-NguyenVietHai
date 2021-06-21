@@ -153,6 +153,8 @@ function xoaNhanVien(maNV) {
 // chỉnh sửa nhân viên
 
 function chinhSuaNhanVien(maNV) {
+  document.querySelector('#maNhanVien').disabled = true;
+  document.querySelector('#btnThemNhanVien').disabled = true;
   var promise = axios({
     url: `http://svcy.myclass.vn/api/QuanLyNhanVienApi/LayThongTinNhanVien?maNhanVien=${maNV}`,
     method: "GET",
@@ -232,8 +234,14 @@ document.querySelector("#btnChinhSua").onclick = function () {
     "Bạn có chắc chắn muốn thay đổi thông tin nhân viên!"
   );
   if (isConfirm === false) {
+    document.querySelector('#maNhanVien').disabled = false;
+    document.querySelector('#btnThemNhanVien').disabled = false;
+    resetInput();
     return;
   }
+
+  document.querySelector('#maNhanVien').disabled = false;
+  document.querySelector('#btnThemNhanVien').disabled = false;
 
   var promise = axios({
     url: `http://svcy.myclass.vn/api/QuanLyNhanVienApi/CapNhatThongTinNhanVien?maNhanVien=${nhanVien.maNhanVien}`,
@@ -243,9 +251,18 @@ document.querySelector("#btnChinhSua").onclick = function () {
 
   promise.then(function (result) {
     staffListFromApi();
+    resetInput();
   });
 
   promise.catch(function (error) {
     console.log(error);
   });
 };
+
+function resetInput() {
+  document.querySelector('#maNhanVien').value = '';
+  document.querySelector('#tenNhanVien').value = '';
+  document.querySelector('#luongCoBan').value = '';
+  document.querySelector('#soGioLamTrongThang').value = '';
+  document.querySelector('#chucVu').value = 1;
+}
